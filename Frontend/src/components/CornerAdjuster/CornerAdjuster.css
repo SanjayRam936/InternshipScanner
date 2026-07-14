@@ -1,0 +1,24 @@
+.corner-adjuster {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  border: 1.5px solid var(--border);
+  overflow: hidden;
+  background: #000;
+  cursor: default;
+}
+
+.corner-adjuster-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+.corner-adjuster-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  touch-action: none;
+}

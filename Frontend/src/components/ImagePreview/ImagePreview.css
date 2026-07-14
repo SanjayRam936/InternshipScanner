@@ -1,0 +1,34 @@
+.image-preview {
+  background: var(--bg-alt);
+}
+
+.image-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-light);
+  margin-bottom: var(--space-3);
+}
+
+.image-preview-frame {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: #000;
+}
+
+.image-preview-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.image-preview-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}

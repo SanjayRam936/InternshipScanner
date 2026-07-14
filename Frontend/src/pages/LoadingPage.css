@@ -1,0 +1,107 @@
+.loading-page {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dashed corner tick marks */
+.loading-tick {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+}
+.loading-tick--tl { top: 20px; left: 20px;
+  border-top: 2px dashed var(--accent); border-left: 2px dashed var(--accent); }
+.loading-tick--tr { top: 20px; right: 20px;
+  border-top: 2px dashed var(--accent); border-right: 2px dashed var(--accent); }
+.loading-tick--bl { bottom: 20px; left: 20px;
+  border-bottom: 2px dashed var(--accent); border-left: 2px dashed var(--accent); }
+.loading-tick--br { bottom: 20px; right: 20px;
+  border-bottom: 2px dashed var(--accent); border-right: 2px dashed var(--accent); }
+
+.loading-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.loading-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-7) var(--space-5);
+}
+
+/* Page skeleton */
+.loading-page-skeleton {
+  width: 200px;
+  height: 280px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loading-skeleton-line {
+  height: 8px;
+  background: var(--border-light);
+}
+
+/* Scanning red line animation */
+@keyframes scan {
+  0%   { top: 0; }
+  100% { top: 100%; }
+}
+.loading-scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: scan 1.8s ease-in-out infinite;
+  z-index: 2;
+}
+
+/* Console log */
+.loading-console {
+  padding: 16px 32px 24px;
+  border-top: 1px solid var(--border-light);
+  min-height: 100px;
+  background: rgba(0,0,0,0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.loading-console-line {
+  transition: opacity 0.3s;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; } 50% { opacity: 0; }
+}
+.loading-cursor {
+  font-size: 14px;
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+  margin-top: 4px;
+}
+
+.loading-error {
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+}

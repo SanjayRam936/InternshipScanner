@@ -1,0 +1,370 @@
+/* =====================================================
+   SCAN_PRO_V1 — Global Design System
+   Retro-industrial "system console" aesthetic
+   ===================================================== */
+
+/* --- CSS Custom Properties (Tokens) --- */
+:root {
+  /* Palette */
+  --bg:            #F5F3EC;
+  --bg-alt:        #F0EDE4;
+  --bg-dark:       #111111;
+  --text-primary:  #111111;
+  --text-secondary:#444444;
+  --text-muted:    #888888;
+  --text-on-dark:  #F5F3EC;
+  --accent:        #B3312C;
+  --accent-hover:  #922621;
+  --border:        #111111;
+  --border-light:  #CCCCCC;
+  --success:       #2A7A3B;
+  --warning:       #B35C00;
+
+  /* Typography */
+  --font-sans:  'Inter', Helvetica, Arial, sans-serif;
+  --font-mono:  'IBM Plex Mono', 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Borders */
+  --radius: 0px;
+  --border-width: 1px;
+
+  /* Z-index layers */
+  --z-nav:    100;
+  --z-modal:  200;
+  --z-toast:  300;
+}
+
+/* --- Reset --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+button {
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: var(--font-sans);
+}
+
+img { display: block; max-width: 100%; }
+
+/* --- Typography Utilities --- */
+.font-mono   { font-family: var(--font-mono); }
+.text-upper  { text-transform: uppercase; letter-spacing: 0.08em; }
+.text-sm     { font-size: 11px; }
+.text-xs     { font-size: 10px; }
+.text-muted  { color: var(--text-muted); }
+.text-accent { color: var(--accent); }
+.font-bold   { font-weight: 700; }
+.font-900    { font-weight: 900; }
+
+/* --- Layout Utilities --- */
+.flex        { display: flex; }
+.flex-col    { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-1       { gap: var(--space-1); }
+.gap-2       { gap: var(--space-2); }
+.gap-3       { gap: var(--space-3); }
+.gap-4       { gap: var(--space-4); }
+
+/* --- Corner Bracket Decoration ---
+   Usage: <div class="bracket-box">...</div>
+   Creates ┌ ┐ └ ┘ via ::before/::after pseudo-elements on children
+   ----------------------------------------------------------- */
+.bracket-box {
+  position: relative;
+  padding: var(--space-5);
+}
+.bracket-box::before,
+.bracket-box::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+.bracket-box::before {
+  top: 0; left: 0;
+  border-top: 2px solid var(--border);
+  border-left: 2px solid var(--border);
+}
+.bracket-box::after {
+  top: 0; right: 0;
+  border-top: 2px solid var(--border);
+  border-right: 2px solid var(--border);
+}
+.bracket-box-inner {
+  position: relative;
+}
+.bracket-box-inner::before,
+.bracket-box-inner::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+}
+.bracket-box-inner::before {
+  bottom: 0; left: 0;
+  border-bottom: 2px solid var(--border);
+  border-left: 2px solid var(--border);
+}
+.bracket-box-inner::after {
+  bottom: 0; right: 0;
+  border-bottom: 2px solid var(--border);
+  border-right: 2px solid var(--border);
+}
+
+/* --- Console Log Line --- */
+.console-line {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+.console-line::before {
+  content: '> ';
+  color: var(--accent);
+}
+
+/* --- Status / Tag Pills --- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 8px;
+  border: 1px solid currentColor;
+}
+.tag-red   { color: var(--accent); border-color: var(--accent); }
+.tag-green { color: var(--success); border-color: var(--success); }
+.tag-dark  { color: var(--text-primary); border-color: var(--border); }
+.tag-muted { color: var(--text-muted); border-color: var(--border-light); }
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 10px var(--space-5);
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn-primary {
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+  border-color: var(--bg-dark);
+}
+.btn-primary:hover {
+  background: #333;
+  border-color: #333;
+}
+.btn-outline {
+  background: transparent;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+.btn-outline:hover {
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+}
+.btn-danger {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn-danger:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn-full { width: 100%; }
+
+/* --- Form Elements --- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+}
+.form-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus {
+  border-color: var(--accent);
+}
+.form-input::placeholder { color: var(--text-muted); }
+.form-error {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+}
+
+/* --- Top Navigation Bar --- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px var(--space-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+}
+.topbar-brand {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.topbar-brand:hover { text-decoration: none; }
+.topbar-icons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+.topbar-icon-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  font-size: 14px;
+  cursor: pointer;
+  background: transparent;
+  transition: background 0.15s;
+}
+.topbar-icon-btn:hover {
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+}
+
+/* --- Breadcrumb --- */
+.breadcrumb {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border-light);
+}
+.breadcrumb a { color: var(--text-muted); }
+.breadcrumb span { color: var(--text-primary); font-weight: 700; }
+
+/* --- Page Layout --- */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 80px; /* room for bottom nav */
+}
+.page-content {
+  flex: 1;
+  padding: var(--space-5);
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+.page-content-wide {
+  flex: 1;
+  padding: var(--space-5);
+  width: 100%;
+}
+
+/* --- Error / Alert Box --- */
+.alert {
+  padding: var(--space-4);
+  border: 1.5px solid;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.alert-error  { border-color: var(--accent); color: var(--accent); background: #fff5f5; }
+.alert-success{ border-color: var(--success); color: var(--success); background: #f5fff7; }
+
+/* --- Loading Spinner (simple) --- */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-light);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* --- Scrollbar (subtle) --- */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-light); }
