@@ -25,12 +25,19 @@ def enhance_contrast(gray: np.ndarray, clip_limit: float = 2.0, tile_grid_size: 
     return clahe.apply(gray)
 
 
-def upscale_for_ocr(gray: np.ndarray, scale: float = 2.0) -> np.ndarray:
+def upscale_for_ocr(gray: np.ndarray, target_short_side: int = 2000) -> np.ndarray:
 
+    h, w = gray.shape[:2]
+    short_side = min(h, w)
+    
+    if short_side >= target_short_side:
+        return gray
+        
+    scale = target_short_side / short_side
     return cv.resize(gray, None, fx=scale, fy=scale, interpolation=cv.INTER_CUBIC)
 
 
-def denoise(gray: np.ndarray, h: int = 10) -> np.ndarray:
+def denoise(gray: np.ndarray, h: int = 5) -> np.ndarray:
 
     return cv.fastNlMeansDenoising(gray, h=h)
 
@@ -196,7 +203,7 @@ def remove_box_shapes(
     return cleaned
 
 
-def prepare_for_ocr(image: np.ndarray, debug_box_removal: bool = False) -> np.ndarray:
+def prepare_for_ocr(image: np.ndarray) -> np.ndarray:
 
     if len(image.shape) == 3:
         gray = to_grayscale(image)
@@ -204,6 +211,10 @@ def prepare_for_ocr(image: np.ndarray, debug_box_removal: bool = False) -> np.nd
         gray = image
     enhanced = enhance_contrast(gray)
     upscaled = upscale_for_ocr(enhanced)
-    denoised = denoise(upscaled)
-    shapes_removed = remove_box_shapes(denoised, debug=debug_box_removal)
+    denoised = denoise(upscaled, h=5)
+    return denoised
+
+def binarize_for_fallback(gray: np.ndarray, debug_box_removal: bool = False) -> np.ndarray:
+    
+    shapes_removed = remove_box_shapes(gray, debug=debug_box_removal)
     return adaptive_threshold(shapes_removed)
