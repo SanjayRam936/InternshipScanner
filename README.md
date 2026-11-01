@@ -121,7 +121,3 @@ The app runs at `http://localhost:5173/`.
 
 **A. S. Sanjay Ram**
 B.E. Computer Science and Engineering, Prathyusha Engineering College
-
-## License
-
-This project was developed as part of an internship. Add a license of your choice here (for example MIT) if you want others to reuse the code.
